@@ -182,5 +182,4 @@ public class WebURL implements Serializable {
     public void setPriority(byte priority) {
         this.priority = priority;
     }
-
 }
