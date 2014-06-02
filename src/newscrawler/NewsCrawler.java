@@ -1,29 +1,22 @@
 package newscrawler;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import newscrawler.crawler.NewsPage;
 import newscrawler.crawler.Page;
 import newscrawler.crawler.WebCrawler;
-import newscrawler.parser.HtmlParseData;
+import newscrawler.database.NewsMongo;
 import newscrawler.url.WebURL;
-import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Entities;
-import org.jsoup.select.Elements;
 
 public class NewsCrawler extends WebCrawler {
-    protected String baseURL = "http://www.baomoi.com";
+    protected static String baseURL; 
     protected final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
             + "|png|tiff?|mid|mp2|mp3|mp4"
             + "|wav|avi|mov|mpeg|ram|m4v|pdf"
             + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
+    
+    static {
+        baseURL = Main.config.getProperty("baseURL");
+    }
 
     @Override
     public boolean shouldVisit(WebURL url) {
@@ -51,10 +44,11 @@ public class NewsCrawler extends WebCrawler {
             if (arr != null) {
                 System.out.print("keywords: ");
                 for (int i = 0; i < arr.length; i++) {
-                    System.out.print(arr[i] + " ");
+                    System.out.print(arr[i] + ", ");
                 }
                 System.out.println();
             }
+            NewsMongo.insert(page);
         }
     }
 }
