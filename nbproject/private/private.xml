@@ -3,7 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/working/crawler/NewsCrawler/src/newscrawler/BasicCrawlController.java</file>
+            <file>file:/D:/working/crawler/NewsCrawler/src/newscrawler/BaoMoiCrawler.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/nodes/Document.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/Jsoup.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/nodes/Node.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/nodes/Entities.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/nodes/Element.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/helper/DataUtil.java</file>
+            <file>jar:file:/D:/working/crawler/NewsCrawler/libs/jsoup-1.7.3-sources.jar!/org/jsoup/parser/Parser.java</file>
         </group>
     </open-files>
 </project-private>

@@ -284,7 +284,7 @@ public class WebCrawler implements Runnable {
                 curURL.setDocid(docIdServer.getNewDocID(fetchResult.getFetchedUrl()));
             }
 
-            Page page = new Page(curURL);
+            Page page = new NewsPage(curURL);
             int docid = curURL.getDocid();
 
             if (!fetchResult.fetchContent(page)) {
