@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import newscrawler.NewsCrawler;
+import newscrawler.database.NewsIDRedisServer;
 import newscrawler.parser.HtmlParseData;
 import newscrawler.url.WebURL;
 import org.jsoup.Jsoup;
@@ -17,9 +18,23 @@ public class NewsPage extends Page {
 
     protected String baseURL = "http://www.baomoi.com";
     protected Elements mainContent = null;
+    protected long _id = -1;
 
     public NewsPage(WebURL url) {
         super(url);
+    }
+    
+    public long assignId() {
+        this.setId(NewsIDRedisServer.getInstance().nextArticleId());
+        return this.getId();
+    }
+    
+    public long getId () {
+        return this._id;
+    }
+    
+    public void setId(long id) {
+        this._id = id;
     }
 
     public boolean isArticle() {

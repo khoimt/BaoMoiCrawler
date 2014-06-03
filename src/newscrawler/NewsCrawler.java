@@ -35,6 +35,8 @@ public class NewsCrawler extends WebCrawler {
     
     public void visit(NewsPage page) {
         if (page.isArticle()) {
+            page.assignId();
+            System.out.println("id: " + page.getId());
             System.out.println("url: " + page.getURL());
             System.out.println("title: " + page.getTitle());
             System.out.println("time: " + page.getTime());
@@ -48,7 +50,7 @@ public class NewsCrawler extends WebCrawler {
                 }
                 System.out.println();
             }
-            NewsMongo.insert(page);
+            NewsMongo.getInstance().insert(page);
         }
     }
 }

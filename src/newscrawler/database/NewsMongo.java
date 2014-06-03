@@ -5,9 +5,16 @@ import com.mongodb.DBCollection;
 import newscrawler.crawler.NewsPage;
 
 public class NewsMongo {
-
-    private static DBCollection collection;
+    protected static NewsMongo _instance;
+    protected static DBCollection collection;
     protected static String name = "baomoi";
+    
+    public static NewsMongo getInstance() {
+        if (_instance == null) {
+            _instance = new NewsMongo();
+        }
+        return _instance;
+    }
     
     public static DBCollection getCollection() {
         if (collection == null)
@@ -15,8 +22,10 @@ public class NewsMongo {
         return collection;
     }
 
-    public static void insert(NewsPage page) {
+    public void insert(NewsPage page) {
         BasicDBObject document = new BasicDBObject();
+        document.put("id", page.getId());
+        document.put("url", page.getURL());
         document.put("title", page.getTitle());
         document.put("time", page.getTime());
         document.put("description", page.getDescription());
