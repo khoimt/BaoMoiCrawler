@@ -26,6 +26,10 @@ public class NewsIDRedisServer {
         return _connection;
     }
     
+    public boolean resetId() {
+        return getConnection().set(this.getArticleIdName(), "0").equals("OK");
+    }
+    
     public String getArticleIdName() {
         return this.idKeyName;
     }

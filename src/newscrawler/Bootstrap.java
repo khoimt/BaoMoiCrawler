@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import newscrawler.crawler.Controller;
 import newscrawler.crawler.CrawlConfig;
 import newscrawler.crawler.CrawlController;
+import newscrawler.database.NewsIDRedisServer;
 import newscrawler.fetcher.PageFetcher;
 import newscrawler.robotstxt.RobotstxtConfig;
 import newscrawler.robotstxt.RobotstxtServer;
@@ -50,6 +51,8 @@ public class Bootstrap {
         PageFetcher pageFetcher = new PageFetcher(crawlConfig);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+        
+        NewsIDRedisServer.getInstance().resetId();
 
         // page seeds
         Controller controller = new Controller(crawlConfig, pageFetcher, robotstxtServer);

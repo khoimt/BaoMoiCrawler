@@ -24,7 +24,7 @@ public class NewsMongo {
 
     public void insert(NewsPage page) {
         BasicDBObject document = new BasicDBObject();
-        document.put("id", page.getId());
+        document.put("_id", page.getId());
         document.put("url", page.getURL());
         document.put("title", page.getTitle());
         document.put("time", page.getTime());
