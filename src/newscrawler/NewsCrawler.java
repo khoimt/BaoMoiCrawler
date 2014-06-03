@@ -6,8 +6,10 @@ import newscrawler.crawler.Page;
 import newscrawler.crawler.WebCrawler;
 import newscrawler.database.NewsMongo;
 import newscrawler.url.WebURL;
+import org.apache.log4j.Logger;
 
 public class NewsCrawler extends WebCrawler {
+    protected static Logger logger;
     protected static String baseURL; 
     protected final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g"
             + "|png|tiff?|mid|mp2|mp3|mp4"
@@ -16,6 +18,7 @@ public class NewsCrawler extends WebCrawler {
     
     static {
         baseURL = Main.config.getProperty("baseURL");
+        logger = Logger.getLogger(NewsCrawler.class);
     }
 
     @Override
@@ -27,28 +30,29 @@ public class NewsCrawler extends WebCrawler {
 
     @Override
     public void visit(Page page) {
-        System.out.println("=============");
         if (page instanceof NewsPage) {
             this.visit((NewsPage) page);
         }
     }
     
     public void visit(NewsPage page) {
+        logger.info("=== Visit: " + page.getURL());
         if (page.isArticle()) {
             page.assignId();
-            System.out.println("id: " + page.getId());
-            System.out.println("url: " + page.getURL());
-            System.out.println("title: " + page.getTitle());
-            System.out.println("time: " + page.getTime());
-            System.out.println("description: " + page.getDescription());
-            System.out.println("content: " + page.getContent());
+            logger.info("id: " + page.getId());
+            logger.info("url: " + page.getURL());
+            logger.info("title: " + page.getTitle());
+            logger.info("time: " + page.getTime());
+            logger.info("description: " + page.getDescription());
+            logger.info("content: " + page.getContent());
             String arr[] = page.getKeywords();
             if (arr != null) {
-                System.out.print("keywords: ");
+                logger.info("keywords: ");
+                StringBuilder str = new StringBuilder();
                 for (int i = 0; i < arr.length; i++) {
-                    System.out.print(arr[i] + ", ");
+                    str.append(arr[i] + ", ");
                 }
-                System.out.println();
+                logger.info(str.toString());
             }
             NewsMongo.getInstance().insert(page);
         }

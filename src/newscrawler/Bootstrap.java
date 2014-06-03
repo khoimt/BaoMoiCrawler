@@ -1,14 +1,9 @@
 package newscrawler;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import newscrawler.crawler.Controller;
 import newscrawler.crawler.CrawlConfig;
 import newscrawler.crawler.CrawlController;
@@ -16,13 +11,14 @@ import newscrawler.database.NewsIDRedisServer;
 import newscrawler.fetcher.PageFetcher;
 import newscrawler.robotstxt.RobotstxtConfig;
 import newscrawler.robotstxt.RobotstxtServer;
+import org.apache.log4j.Logger;
 
 public class Bootstrap {
 
     protected static Logger logger;
 
     static {
-        logger = Logger.getLogger(Bootstrap.class.getName());
+        logger = Logger.getLogger(Bootstrap.class);
     }
 
     public static Properties loadConfig(String config) {
@@ -32,7 +28,7 @@ public class Bootstrap {
             prop.load(new BufferedInputStream(new FileInputStream(config)));
             return prop;
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Could not load config", ex);
+            logger.debug("Could not load config, " + ex.getMessage());
         }
         return null;
     }

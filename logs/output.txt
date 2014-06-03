@@ -1,0 +1,6 @@
+03-06-14 14:35:33s Connection Manager org.apache.http.impl.conn.PoolingClientConnectionManager - Closing expired connections
+03-06-14 14:35:33s Connection Manager org.apache.http.impl.conn.PoolingClientConnectionManager - Closing connections idle longer than 30 SECONDS
+03-06-14 14:35:38s Connection Manager org.apache.http.impl.conn.PoolingClientConnectionManager - Closing expired connections
+03-06-14 14:35:38s Connection Manager org.apache.http.impl.conn.PoolingClientConnectionManager - Closing connections idle longer than 30 SECONDS
+03-06-14 14:35:43s Connection Manager org.apache.http.impl.conn.PoolingClientConnectionManager - Closing expired connections
+03-06-14 14:35:43s Connection Manager org.apache.http.impl.conn.PoolingClientConnectionManager - Closing connections idle longer than 30 SECONDS
