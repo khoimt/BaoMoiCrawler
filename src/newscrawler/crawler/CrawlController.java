@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import newscrawler.database.NewsIDRedisServer;
 
 /**
  * The controller that manages a crawling session. This class creates the
@@ -85,7 +86,7 @@ public class CrawlController extends Configurable {
         }
 
         Environment env = new Environment(envHome, envConfig);
-        docIdServer = new DocIDServer(env, config);
+        docIdServer = new NewsIDRedisServer(config);
         frontier = new Frontier(env, config, docIdServer);
 
         this.pageFetcher = pageFetcher;

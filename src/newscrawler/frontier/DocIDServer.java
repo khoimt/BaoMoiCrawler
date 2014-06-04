@@ -21,6 +21,10 @@ public class DocIDServer extends Configurable {
 
     protected int lastDocID;
 
+    public DocIDServer(CrawlConfig config) {
+        super(config);
+    }
+
     public DocIDServer(Environment env, CrawlConfig config) throws DatabaseException {
         super(config);
         DatabaseConfig dbConfig = new DatabaseConfig();

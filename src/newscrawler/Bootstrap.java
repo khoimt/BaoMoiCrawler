@@ -48,8 +48,6 @@ public class Bootstrap {
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         
-        NewsIDRedisServer.getInstance().resetId();
-
         // page seeds
         Controller controller = new Controller(crawlConfig, pageFetcher, robotstxtServer);
         controller.addSeed("http://www.baomoi.com/");
@@ -65,5 +63,19 @@ public class Bootstrap {
         controller.addSeed("http://www.baomoi.com/Home/NhaDat.epi");
 
         return controller;
+    }
+    
+    public static void dev(String configPath) throws Exception {
+        Properties cfg = Main.config = loadConfig(configPath);
+
+        CrawlConfig crawlConfig = new CrawlConfig();
+        crawlConfig.setCrawlStorageFolder(cfg.getProperty("crawlStorageFolder"));
+        crawlConfig.setPolitenessDelay(Integer.parseInt(cfg.getProperty("politenessDelay")));
+        crawlConfig.setMaxDepthOfCrawling(Integer.parseInt(cfg.getProperty("maxDepthOfCrawling")));
+        crawlConfig.setMaxPagesToFetch(Integer.parseInt(cfg.getProperty("maxPagesToFetch")));
+        crawlConfig.setResumableCrawling(Boolean.valueOf(cfg.getProperty("resumableCrawling")));
+        crawlConfig.setUserAgentString(cfg.getProperty("userAgentString"));
+       
+        return ;
     }
 }

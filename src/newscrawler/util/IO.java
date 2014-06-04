@@ -14,7 +14,6 @@ public class IO {
     }
 
     public static boolean deleteFolderContents(File folder) {
-        System.out.println("Deleting content of: " + folder.getAbsolutePath());
         File[] files = folder.listFiles();
         for (File file : files) {
             if (file.isFile()) {

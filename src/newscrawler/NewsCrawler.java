@@ -47,10 +47,10 @@ public class NewsCrawler extends WebCrawler {
             logger.info("content: " + page.getContent());
             String arr[] = page.getKeywords();
             if (arr != null) {
-                logger.info("keywords: ");
                 StringBuilder str = new StringBuilder();
-                for (int i = 0; i < arr.length; i++) {
-                    str.append(arr[i] + ", ");
+                str.append("keywords: ");
+                for (String st : arr) {
+                    str.append(st).append(", ");
                 }
                 logger.info(str.toString());
             }

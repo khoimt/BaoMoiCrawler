@@ -1,10 +1,33 @@
 package newscrawler.util;
 
-/**
- * @author Yasser Ganjisaffar <lastname at gmail dot com>
- */
-public class Util {
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import org.apache.log4j.Logger;
 
+public class Util {
+    protected static MessageDigest md5Crypto;
+    protected static Logger logger;
+    static {
+        logger = Logger.getLogger(Util.class);
+        try {
+            md5Crypto = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex) {
+            logger.error(ex.getMessage());
+        }
+    }
+    
+    public static String md5(String str) {
+        return byteArrayToHex(md5Crypto.digest(str.getBytes()));
+    }
+    
+    public static String byteArrayToHex(byte[] a) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : a) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        return sb.toString();
+    }
+    
     public static byte[] long2ByteArray(long l) {
         byte[] array = new byte[8];
         int i, shift;

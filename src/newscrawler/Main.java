@@ -11,8 +11,8 @@ public class Main {
     public static CrawlController controller;
 
     public static void main(String[] args) {
+        CrawlController controller;
         try {
-            CrawlController controller;
             if (args.length > 0) {
                 controller = Bootstrap.bootstrap(args[0]);
             } else {
@@ -22,6 +22,7 @@ public class Main {
             controller.start(NewsCrawler.class,
                     Integer.parseInt(Main.config.getProperty("numberOfCrawlers")));
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
