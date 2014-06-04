@@ -1,9 +1,13 @@
 package newscrawler.url;
 
-import java.io.Serializable;
-
+import com.sleepycat.bind.tuple.TupleInput;
+import com.sleepycat.bind.tuple.TupleOutput;
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import org.json.JSONObject;
 
 /**
  * @author Yasser Ganjisaffar <lastname at gmail dot com>
@@ -181,5 +185,32 @@ public class WebURL implements Serializable {
 
     public void setPriority(byte priority) {
         this.priority = priority;
+    }
+
+    public WebURL parseJSON(String json) {
+        JSONObject jsonObj = new JSONObject(json);
+
+        this.setURL((String) jsonObj.get("url"));
+        this.setDocid((int) jsonObj.get("docId"));
+        this.setParentDocid((int) jsonObj.get("pDocId"));
+        this.setParentUrl((String) jsonObj.get("pUrl"));
+        this.setDepth(Short.valueOf(String.valueOf((int) jsonObj.get("depth"))));
+        this.setPriority(Byte.valueOf(String.valueOf((int) jsonObj.get("depth"))));
+        this.setAnchor((String) jsonObj.get("anchor"));
+
+        return this;
+    }
+
+    public String toJSON() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("url", this.getURL());
+        map.put("docId", this.getDocid());
+        map.put("pDocId", this.getParentDocid());
+        map.put("pUrl", this.getParentUrl());
+        map.put("depth", this.getDepth());
+        map.put("priority", this.getPriority());
+        map.put("anchor", this.getAnchor());
+
+        return new JSONObject(map).toString();
     }
 }
