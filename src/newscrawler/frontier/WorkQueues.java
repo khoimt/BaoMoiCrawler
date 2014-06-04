@@ -6,30 +6,23 @@ import newscrawler.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import newscrawler.Main;
+import newscrawler.database.RedisConnector;
+import redis.clients.jedis.Jedis;
 
-/**
- * @author Yasser Ganjisaffar <lastname at gmail dot com>
- */
 public class WorkQueues {
 
-    protected Database urlsDB = null;
-    protected Environment env;
-
-    protected boolean resumable;
-
-    protected WebURLTupleBinding webURLBinding;
-
+    protected Jedis db = null;
+    protected String dbname = null;
     protected final Object mutex = new Object();
 
-    public WorkQueues(Environment env, String dbName, boolean resumable) throws DatabaseException {
-        this.env = env;
-        this.resumable = resumable;
-        DatabaseConfig dbConfig = new DatabaseConfig();
-        dbConfig.setAllowCreate(true);
-        dbConfig.setTransactional(resumable);
-        dbConfig.setDeferredWrite(!resumable);
-        urlsDB = env.openDatabase(null, dbName, dbConfig);
-        webURLBinding = new WebURLTupleBinding();
+    public WorkQueues(String dbName) throws DatabaseException {
+        Properties cfg = Main.config;
+        this.dbname = dbName;
+        this.db = RedisConnector.connect(cfg.getProperty("redis.frontier.host"),
+                        Integer.valueOf(cfg.getProperty("redis.frontier.port")),
+                        Integer.valueOf(cfg.getProperty("redis.frontier.db")));
     }
 
     public List<WebURL> get(int max) throws DatabaseException {
@@ -42,11 +35,6 @@ public class WorkQueues {
             DatabaseEntry key = new DatabaseEntry();
             DatabaseEntry value = new DatabaseEntry();
             Transaction txn;
-            if (resumable) {
-                txn = env.beginTransaction(null, null);
-            } else {
-                txn = null;
-            }
             try {
                 cursor = urlsDB.openCursor(txn, null);
                 result = cursor.getFirst(key, value, null);
