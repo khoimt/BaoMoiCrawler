@@ -1,49 +1,32 @@
-package newscrawler.frontier;
+package newscrawler.crawler;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
-import newscrawler.crawler.Configurable;
-import newscrawler.crawler.CrawlConfig;
-import newscrawler.frontier.Counters.ReservedCounterNames;
+import java.util.List;
+import newscrawler.frontier.Counters;
+import newscrawler.frontier.DocIDServer;
+import newscrawler.frontier.Frontier;
+import newscrawler.frontier.InProcessPagesDB;
+import newscrawler.frontier.WorkQueues;
 import newscrawler.url.WebURL;
 import org.apache.log4j.Logger;
 
-import java.util.List;
-
-/**
- * @author Yasser Ganjisaffar <lastname at gmail dot com>
- */
-public class Frontier extends Configurable {
-
+public class NewsFrontier extends Frontier {
     protected static final Logger logger = Logger.getLogger(Frontier.class.getName());
 
-    protected WorkQueues workQueues;
-
-    protected InProcessPagesDB inProcessPages;
-
-    protected final Object mutex = new Object();
-    protected final Object waitingList = new Object();
-
-    protected boolean isFinished = false;
-
-    protected long scheduledPages;
-
-    protected DocIDServer docIdServer;
-
-    protected Counters counters;
-
-    public Frontier(CrawlConfig config) {
+    public NewsFrontier(CrawlConfig config, DocIDServer docIdServer) {
         super(config);
+        this.docIdServer = docIdServer;
     }
-
-    public Frontier(Environment env, CrawlConfig config, DocIDServer docIdServer) {
-        super(config);
+    
+    public NewsFrontier(Environment env, CrawlConfig config, DocIDServer docIdServer) {
+        super(env, config, docIdServer);
         this.counters = new Counters(env, config);
         this.docIdServer = docIdServer;
         try {
             workQueues = new WorkQueues(env, "PendingURLsDB", config.isResumableCrawling());
             if (config.isResumableCrawling()) {
-                scheduledPages = counters.getValue(ReservedCounterNames.SCHEDULED_PAGES);
+                scheduledPages = counters.getValue(Counters.ReservedCounterNames.SCHEDULED_PAGES);
                 inProcessPages = new InProcessPagesDB(env);
                 long numPreviouslyInProcessPages = inProcessPages.getLength();
                 if (numPreviouslyInProcessPages > 0) {
@@ -145,7 +128,7 @@ public class Frontier extends Configurable {
     }
 
     public void setProcessed(WebURL webURL) {
-        counters.increment(ReservedCounterNames.PROCESSED_PAGES);
+        counters.increment(Counters.ReservedCounterNames.PROCESSED_PAGES);
         if (inProcessPages != null) {
             if (!inProcessPages.removeURL(webURL)) {
                 logger.warn("Could not remove: " + webURL.getURL() + " from list of processed pages.");
@@ -162,7 +145,7 @@ public class Frontier extends Configurable {
     }
 
     public long getNumberOfProcessedPages() {
-        return counters.getValue(ReservedCounterNames.PROCESSED_PAGES);
+        return counters.getValue(Counters.ReservedCounterNames.PROCESSED_PAGES);
     }
 
     public void sync() {

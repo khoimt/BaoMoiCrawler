@@ -33,7 +33,7 @@ public class Bootstrap {
         return null;
     }
 
-    public static CrawlController bootstrap(String configPath) throws Exception {
+    public static Controller bootstrap(String configPath) throws Exception {
         Properties cfg = Main.config = loadConfig(configPath);
 
         CrawlConfig crawlConfig = new CrawlConfig();

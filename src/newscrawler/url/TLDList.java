@@ -44,5 +44,5 @@ public class TLDList {
     public boolean contains(String str) {
         return tldSet.contains(str);
     }
-
+    
 }

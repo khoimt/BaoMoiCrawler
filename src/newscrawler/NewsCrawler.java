@@ -36,7 +36,7 @@ public class NewsCrawler extends WebCrawler {
     }
     
     public void visit(NewsPage page) {
-        logger.info("=== Visit: " + page.getURL());
+        logger.info("=== " + Thread.currentThread().getName() + " Visit: " + page.getURL());
         if (page.isArticle()) {
             page.assignId();
             logger.info("id: " + page.getId());

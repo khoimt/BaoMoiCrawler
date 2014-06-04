@@ -79,10 +79,10 @@ public class WebURL implements Serializable {
         if (parts.length > 2) {
             domain = parts[parts.length - 2] + "." + parts[parts.length - 1];
             int limit = 2;
-            if (TLDList.getInstance().contains(domain)) {
-                domain = parts[parts.length - 3] + "." + domain;
-                limit = 3;
-            }
+//            if (TLDList.getInstance().contains(domain)) {
+//                domain = parts[parts.length - 3] + "." + domain;
+//                limit = 3;
+//            }
             for (int i = 0; i < parts.length - limit; i++) {
                 if (subDomain.length() > 0) {
                     subDomain += ".";
